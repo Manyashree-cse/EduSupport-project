@@ -2,6 +2,7 @@ Flask
 Flask-SQLAlchemy
 Flask-Login
 PyMySQL
+mysqlclient
 Werkzeug
 python-dotenv
 gunicorn
