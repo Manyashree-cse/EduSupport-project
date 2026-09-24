@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Staff Ticket #{{ ticket.id }}{% endblock %}
+{% block content %}
+<div class="row g-3">
+<div class="col-lg-8">
+<div class="card shadow-sm"><div class="card-body">
+<h3>#{{ ticket.id }} — {{ ticket.subject }}</h3>
+<p>{{ ticket.description }}</p>
+<p><strong>Student:</strong> {{ ticket.student.name }} ({{ ticket.student.email }})</p>
+<p><strong>Priority:</strong> {{ ticket.priority }}</p>
+<p><strong>Age:</strong> {{ ticket.age_text }}</p>
+</div></div>
+
+<div class="card shadow-sm mt-3"><div class="card-body">
+<h5>Update Ticket</h5>
+<form method="POST" action="{{ url_for('staff.update_ticket', ticket_id=ticket.id) }}">
+<label class="form-label">Status</label>
+<select class="form-select mb-3" name="status">
+{% for status in ["ASSIGNED","IN_PROGRESS","PENDING","RESOLVED"] %}
+<option value="{{ status }}" {% if ticket.status == status %}selected{% endif %}>{{ status }}</option>
+{% endfor %}
+</select>
+
+<label class="form-label">Comment / Resolution Note</label>
+<textarea class="form-control mb-3" name="comment" rows="4"></textarea>
+
+<button class="btn btn-primary">Update Ticket</button>
+</form>
+</div></div>
+</div>
+
+<div class="col-lg-4">
+<div class="card shadow-sm"><div class="card-body">
+<h5>Activity History</h5>
+{% for activity in activities %}
+<div class="small border-bottom py-2">
+<strong>{{ activity.user.name }}</strong><br>
+{{ activity.action }}<br>
+<span class="text-muted">{{ activity.created_at }}</span>
+</div>
+{% else %}<p class="text-muted">No activity.</p>{% endfor %}
+</div></div>
+</div>
+</div>
+{% endblock %}

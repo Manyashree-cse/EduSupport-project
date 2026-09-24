@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Create Ticket{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-8">
+<div class="card shadow-sm">
+<div class="card-body">
+<h2>Create Support Ticket</h2>
+<p class="text-muted">Describe your issue clearly so staff can resolve it quickly.</p>
+
+<form method="POST">
+<label class="form-label">Category</label>
+<select class="form-select mb-3" name="category_id" required>
+<option value="">Select category</option>
+{% for category in categories %}
+<option value="{{ category.id }}">{{ category.name }}</option>
+{% endfor %}
+</select>
+
+<label class="form-label">Subject</label>
+<input class="form-control mb-3" name="subject" maxlength="200" required>
+
+<label class="form-label">Description</label>
+<textarea class="form-control mb-3" name="description" rows="6" required></textarea>
+
+<label class="form-label">Priority</label>
+<select class="form-select mb-3" name="priority">
+<option>LOW</option>
+<option selected>MEDIUM</option>
+<option>HIGH</option>
+<option>URGENT</option>
+</select>
+
+<button class="btn btn-primary">Submit Ticket</button>
+<a class="btn btn-secondary" href="{{ url_for('student.dashboard') }}">Cancel</a>
+</form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% if tickets %}
+<div class="table-responsive">
+<table class="table table-hover align-middle">
+<thead><tr>
+<th>ID</th><th>Subject</th><th>Category</th><th>Priority</th><th>Status</th><th>Age</th><th></th>
+</tr></thead>
+<tbody>
+{% for ticket in tickets %}
+<tr>
+<td>#{{ ticket.id }}</td>
+<td>{{ ticket.subject }}</td>
+<td>{{ ticket.category.name }}</td>
+<td><span class="badge text-bg-{{ 'danger' if ticket.priority in ['HIGH','URGENT'] else 'secondary' }}">{{ ticket.priority }}</span></td>
+<td><span class="badge text-bg-info">{{ ticket.status }}</span></td>
+<td>{{ ticket.age_text }}</td>
+<td><a class="btn btn-sm btn-outline-primary" href="{{ url_for('student.ticket_detail', ticket_id=ticket.id) }}">View</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% else %}
+<p class="text-muted mb-0">No tickets found.</p>
+{% endif %}

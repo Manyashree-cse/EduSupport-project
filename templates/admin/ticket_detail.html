@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Admin Ticket #{{ ticket.id }}{% endblock %}
+{% block content %}
+<div class="row g-3">
+<div class="col-lg-8">
+<div class="card shadow-sm"><div class="card-body">
+<h3>#{{ ticket.id }} — {{ ticket.subject }}</h3>
+<p>{{ ticket.description }}</p>
+<hr>
+<p><strong>Student:</strong> {{ ticket.student.name }}</p>
+<p><strong>Category:</strong> {{ ticket.category.name }}</p>
+<p><strong>Priority:</strong> {{ ticket.priority }}</p>
+<p><strong>Status:</strong> {{ ticket.status }}</p>
+<p><strong>Age:</strong> {{ ticket.age_text }}</p>
+<p><strong>SLA:</strong>
+{% if ticket.sla_breached %}<span class="text-danger">BREACHED</span>
+{% else %}<span class="text-success">Within SLA</span>{% endif %}
+</p>
+</div></div>
+</div>
+
+<div class="col-lg-4">
+<div class="card shadow-sm mb-3"><div class="card-body">
+<h5>Assign Staff</h5>
+<form method="POST" action="{{ url_for('admin.assign_ticket', ticket_id=ticket.id) }}">
+<select class="form-select mb-2" name="staff_id" required>
+<option value="">Select staff</option>
+{% for user in staff_users %}
+<option value="{{ user.id }}" {% if ticket.assigned_to == user.id %}selected{% endif %}>{{ user.name }}</option>
+{% endfor %}
+</select>
+<button class="btn btn-primary w-100">Assign</button>
+</form>
+</div></div>
+
+<div class="card shadow-sm"><div class="card-body">
+<h5>Activity History</h5>
+{% for activity in activities %}
+<div class="small border-bottom py-2">
+<strong>{{ activity.user.name }}</strong><br>
+{{ activity.action }}<br>
+<span class="text-muted">{{ activity.created_at }}</span>
+</div>
+{% else %}<p class="text-muted">No activity.</p>{% endfor %}
+</div></div>
+</div>
+</div>
+{% endblock %}
